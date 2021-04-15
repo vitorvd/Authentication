@@ -1,5 +1,5 @@
 # Authentication
-Repositório com o desafio prático para entrevista da SIP Digital. Por momento, existe apenas a parte backend, há planos para desenvolver o frontend.
+Repositório com o desafio prático para entrevista de estágio da SIP Digital. Por momento, existe apenas a parte backend, há planos para desenvolver o frontend.
 
 ## Tecnologias:
 - JavaScript;
