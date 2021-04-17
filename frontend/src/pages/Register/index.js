@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useHistory} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 
 import './styles.css';
 import api from '../../services/api'
@@ -26,13 +26,14 @@ export default function Register() {
             setName('');
             setEmail('');
             setPassword('');
+            history.push('/');
         } catch (error) {
             console.log(error);
         }
     }
 
     return (
-        <div className="register-container">
+        <div className="container">
             <div className="content">
                 <section>
                     <h1>Cadastro</h1>
@@ -44,26 +45,31 @@ export default function Register() {
                 </section>
                 <form onSubmit={handleRegister}>
                     <input
-                        placeholder = "Nome de Usuário"
-                        value = {name}
+                        placeholder="Nome de Usuário"
+                        value={name}
+                        required
                         onChange = {e => setName(e.target.value)}
                     />
                     <input
-                        type = "email"
-                        placeholder = "E-mail"
-                        value = {email}
+                        type="email"
+                        placeholder="E-mail"
+                        value={email}
+                        required
                         onChange = {e => setEmail(e.target.value)}
                     />
                     <input
-                        type = "password"
-                        placeholder = "Senha"
-                        value = {password}
+                        type="password"
+                        placeholder="Senha"
+                        value={password}
+                        required
                         onChange = {e => setPassword(e.target.value)}
                     />
 
                     <div className="button-group">
                         <button className="button" type="submit">Cadastrar</button>
-                        <button className="button">Logar</button>
+                        <Link className="link" to="/">
+                            Já tenho cadastro
+                        </Link>
                     </div>
                 </form>
             </div>
