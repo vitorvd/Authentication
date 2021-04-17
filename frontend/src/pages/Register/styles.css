@@ -1,0 +1,85 @@
+.register-container {
+    min-height: 100vh;
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-container .content {
+    max-width: 800px;
+    background: #fff;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.2);
+    padding: 80px;
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Estilização da Section */
+.register-container .content section {
+    width: 100%;
+}
+
+.register-container .content section h1 {
+    font-size: 32px;
+    font: bolder;
+    color: #FC1919;
+    opacity: 0.8;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.register-container .content section p {
+    font-size: 12px;
+    font: 200;
+    color: #060706;
+    text-align: justify;
+    line-height: 20px;
+}
+
+/* Estilização do Forms */
+.register-container .content form {
+    width: 100%;
+    max-width: 450px;
+    display: block;
+    padding-left: 20px;
+}
+
+.register-container .content form input:not(:first-child),  
+.register-container .content form button {
+    margin-top: 10px;
+}
+
+.register-container .content form input {
+    width: 100%;
+    height: 45px;
+    padding: 0 14px;
+    border: 1px solid rgba(122,130,133, 0.5);
+    background-color: rgba(220, 220, 230, 0.1);
+    border-radius: 8px;
+}
+
+.register-container .content form .button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.register-container .content form .button-group button {
+    padding: 10px;
+    border: 1px solid rgba(252, 25, 25, 0.8);
+    color: rgba(252, 25, 25, 0.8);
+    background-color: #FFF;
+    border-radius: 5px;
+    width: 45%;
+    cursor: pointer;
+}
+
+.register-container .content form .button-group button[type="submit"] {
+    color: #FFF;
+    background-color: rgba(252, 25, 25, 0.8);
+}
