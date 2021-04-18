@@ -1,40 +1,61 @@
-import User from "../models/User.js"
-import jwt from "jsonwebtoken"
-import md5 from "md5"
+import User from "../models/User.js";
+import jwt from "jsonwebtoken";
+import bcrypt from 'bcryptjs';
+
+import authConfig from '../config/auth.js';
 
 async function register(req, res) {
     const {name, email, password} = req.body;
     
     if((name == null) || (email == null) || (password == null)) {
-        res.send({ msg: "Sintaxe incorreta.", status: "error" });
+        res.status(400).send({ msg: 'Sintaxe incorreta.' });
         return;
     }
 
-    const findUser = await User.findOne({ where: {name} });
-    if(findUser) {
-        res.send({ msg: "Usuário já cadastrado", status: "error"});
-        return;
+    try {
+        const findUser = await User.findOne({ where: {name} });
+        if(findUser) {
+            res.status(400).send({ msg: 'Usuário já cadastrado' });
+            return;
+        }
+    
+        const passwordHash = await bcrypt.hash(password, 10);
+    
+        const data = await User.create({ name, email, password: passwordHash });
+        //res.status(201).send(data.toJSON());
+        res.status(201).send({ msg: 'Cadastro realizado com sucesso, aproveite!' });
+    } catch (error) {
+        res.status(400).send({ msg: 'Algum problema ocorreu ao realizar o seu registro.' });
     }
 
-    const data = await User.create({ name, email, password: md5(password) });
-    res.send(data.toJSON());
 }
 
 async function login(req, res) {
     const {name, password} = req.body;
 
     if((name == null) || (password == null)){
-        res.send({ msg: "Preencha todos os campos!", status: "error" });
+        res.status(400).send({ msg: 'Preencha todos os campos!' });
         return;
     }
     
-    const findUser = await User.findOne({ where: {name, password: md5(password) } });
-    if(findUser) {
-        const token = jwt.sign({name}, "TEQUILAXBR");
-        res.send({ msg: "Você realizou o login com sucesso.", status: "ok", token});
-    }else{
-        res.send({ msg: "Usuário ou senha incorretos.", status: "ok"});
+    try {
+        const findUser = await User.findOne({ where: { name } });
+        if(findUser) {
+            if(!await bcrypt.compare(password, findUser.password)){
+                return res.status(400).send({ msg: 'Senha incorreta.' });
+            }
+            const token = jwt.sign({ name }, authConfig.secret, {
+                expiresIn: 86400 //expirar em um dia
+            });
+            console.log(token);
+            res.status(200).send({ msg: 'Você foi autenticado!' });
+        }else{
+            res.status(400).send({ msg: "Usuário incorreto." });
+        }        
+    } catch (error) {
+        res.status(400).send({ msg: 'Algum problema ocorreu ao realizar a sua autenticação.' });
     }
+
 }
 
 export default {register, login}

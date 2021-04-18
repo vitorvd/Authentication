@@ -1,30 +1,30 @@
-import Comment from "../models/Comment.js"
-import jwt from "jsonwebtoken"
+import Comment from "../models/Comment.js";
+import jwt from "jsonwebtoken";
+
+import authConfig from '../config/auth.js';
 
 async function comment(req, res) {
-    const {comment} = req.body;
+    const { user_id } = req.params;
+    const { comment } = req.body;
     const token = req.headers["x-access-token"];
     
     if(comment == null) {
-        res.send({ msg: "Sintaxe incorreta.", status: "error" });
+        res.status(400).send({ msg: 'Sintaxe incorreta.' });
         return;
     }
 
-    /*const findUser = await User.findOne({ where: {user} });
-    if(!findUser) {
-        res.send({ msg: "Usuário não cadastrado", status: "error"});
-        return;
-    }*/
-
     try{
-        const findToken = jwt.verify(token, "TEQUILAXBR");
-        console.log(findToken);
-        const data = await Comment.create({ user: findToken.name, comment});
+        const user = jwt.verify(token, authConfig.secret); //retorna um User
+        if(!user) {
+            return res.status(400).send({ msg: 'Você precisa estar autenticado para comentar.' });
+        }
+        const data = await Comment.create({ 
+            comment,
+            user_id,
+        });
         res.send(data.toJSON());
     }catch(ex){
-        console.log(ex);
-        res.send({ msg: "Você precisa estar logado para comentar.", status: "error"});
-        return;
+        res.status(400).send({ msg: 'Você precisa estar autenticado para comentar.' });
     }
 }
 

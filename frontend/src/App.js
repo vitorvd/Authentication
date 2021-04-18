@@ -10,8 +10,8 @@ function App() {
 		<div className="App">
 			<BrowserRouter>
 				<Switch>
-					<Route path="/" exact component={Login}/>
-					<Route path="/register" exact component={Register}/>
+					<Route path="/users/auth" exact component={Login}/>
+					<Route path="/users/register" exact component={Register}/>
 				</Switch>
 			</BrowserRouter>
     	</div>

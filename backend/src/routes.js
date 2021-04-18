@@ -4,8 +4,8 @@ import CommentController from "./controllers/CommentController.js"
 
 const routes = express.Router();
 
-routes.post("/register", UserController.register);
-routes.post("/login", UserController.login);
-routes.post("/comentar", CommentController.comment);
+routes.post("/users/register", UserController.register);
+routes.post("/users/auth", UserController.login);
+routes.post("/users/:user_id/comment", CommentController.comment);
 
 export default routes;

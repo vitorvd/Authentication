@@ -54,7 +54,7 @@ export default function Login() {
                     />
 
                     <div className="button-group">
-                        <Link className="link" to="/register">
+                        <Link className="link" to="/users/register">
                             Preciso cadastrar
                         </Link>
                         <button className="button" type="submit">Logar</button>

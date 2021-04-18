@@ -3,17 +3,18 @@ import pkg from "sequelize"
 const { Model, DataTypes } = pkg;
 
 class Comment extends Model {
-    static init(sequelize) {
-        super.init(
-            {
-                user: DataTypes.STRING,
+    static init(connection) {
+        super.init({
                 comment: DataTypes.STRING,
-            },
-            {
-                sequelize, 
-                timestamps: false,
+            }, {
+                sequelize: connection
             }
         );
+    }
+
+    static associate(models) {
+        //foreignKey = chave estrangeira da coluna Comment
+        this.belongsTo(models.User, { foreignKey: 'user_id', as: 'comment_user' })
     }
 }
 

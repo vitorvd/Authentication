@@ -22,11 +22,11 @@ export default function Register() {
         }
 
         try {
-            const response = await api.post('/register', data);
+            const response = await api.post('/users/register', data);
             setName('');
             setEmail('');
             setPassword('');
-            history.push('/');
+            history.push('/users/auth');
         } catch (error) {
             console.log(error);
         }
@@ -67,7 +67,7 @@ export default function Register() {
 
                     <div className="button-group">
                         <button className="button" type="submit">Cadastrar</button>
-                        <Link className="link" to="/">
+                        <Link className="link" to="/users/auth">
                             Já tenho cadastro
                         </Link>
                     </div>
