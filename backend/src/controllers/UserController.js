@@ -1,5 +1,5 @@
-import User from "../models/User.js";
-import jwt from "jsonwebtoken";
+import User from '../models/User.js';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 import authConfig from '../config/auth.js';
@@ -7,7 +7,7 @@ import authConfig from '../config/auth.js';
 async function register(req, res) {
     const {name, email, password} = req.body;
     
-    if((name == null) || (email == null) || (password == null)) {
+    if((name == null) || (email == null) || (password == null) || (name.length < 3) || (password.length < 5)) {
         res.status(400).send({ msg: 'Sintaxe incorreta.' });
         return;
     }
@@ -22,7 +22,7 @@ async function register(req, res) {
         const passwordHash = await bcrypt.hash(password, 10);
     
         const data = await User.create({ name, email, password: passwordHash });
-        //res.status(201).send(data.toJSON());
+
         res.status(201).send({ msg: 'Cadastro realizado com sucesso, aproveite!' });
     } catch (error) {
         res.status(400).send({ msg: 'Algum problema ocorreu ao realizar o seu registro.' });
@@ -33,8 +33,8 @@ async function register(req, res) {
 async function login(req, res) {
     const {name, password} = req.body;
 
-    if((name == null) || (password == null)){
-        res.status(400).send({ msg: 'Preencha todos os campos!' });
+    if((name == null) || (password == null) || (name.length < 3) || (password.length < 5)){
+        res.status(400).send({ msg: 'Sintaxe incorreta.' });
         return;
     }
     
@@ -50,7 +50,7 @@ async function login(req, res) {
             console.log(token);
             res.status(200).send({ msg: 'Você foi autenticado!' });
         }else{
-            res.status(400).send({ msg: "Usuário incorreto." });
+            res.status(400).send({ msg: 'Usuário incorreto.' });
         }        
     } catch (error) {
         res.status(400).send({ msg: 'Algum problema ocorreu ao realizar a sua autenticação.' });

@@ -1,31 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 import './styles.css';
 import api from '../../services/api'
 
 export default function Register() {
-
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm();
 
     const history = useHistory();
 
-    async function handleRegister(e) {
-        e.preventDefault();
-
+    const onSubmit = async ({name, email, password}) => {
         const data = {
             name,
             email,
             password
         }
-
+        
         try {
             const response = await api.post('/users/register', data);
-            setName('');
-            setEmail('');
-            setPassword('');
             history.push('/users/auth');
         } catch (error) {
             console.log(error);
@@ -43,27 +40,41 @@ export default function Register() {
                         » Nesta página é onde você realizará o Cadastro.
                     </p>
                 </section>
-                <form onSubmit={handleRegister}>
+
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <input
+                        className= {errors?.name ? "border-red" : ""}
                         placeholder="Nome de Usuário"
-                        value={name}
-                        required
-                        onChange = {e => setName(e.target.value)}
+                        {...register("name", {
+                            required: true,
+                            minLength: 3,
+                            maxLength: 20,
+                            pattern: /^[A-Za-z]+$/i
+                          })}
                     />
+                    {errors?.name && <p className="error">» O usuário deve ter entre 3 à 20 letras.</p>}
+                    
                     <input
+                        className= {errors?.name ? "border-red" : ""}
                         type="email"
                         placeholder="E-mail"
-                        value={email}
-                        required
-                        onChange = {e => setEmail(e.target.value)}
+                        {...register("email", { 
+                            required: true 
+                        })}
                     />
+                    {errors?.email && <p className="error">» Você esqueceu de informar o e-mail.</p>}
+
                     <input
+                        className= {errors?.name ? "border-red" : ""}
                         type="password"
                         placeholder="Senha"
-                        value={password}
-                        required
-                        onChange = {e => setPassword(e.target.value)}
+                        {...register("password", { 
+                            required: true,
+                            minLength: 5,
+                            maxLength: 20,
+                        })}
                     />
+                    {errors?.password && <p className="error">» A senha deve ter entre 5 à 20 caracters.</p>}
 
                     <div className="button-group">
                         <button className="button" type="submit">Cadastrar</button>

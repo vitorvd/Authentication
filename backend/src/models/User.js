@@ -1,5 +1,5 @@
 'use strict';
-import pkg from "sequelize"
+import pkg from 'sequelize'
 const { Model, DataTypes } = pkg;
 
 class User extends Model {

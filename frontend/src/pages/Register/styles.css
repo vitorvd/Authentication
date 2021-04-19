@@ -68,6 +68,18 @@
     border-radius: 8px;
 }
 
+.container .content form input.border-red {
+    border: 1px solid rgb(252, 25, 25, 0.9);
+}
+
+.container .content form .error {
+    margin-top: 5px;
+    padding: 5px;
+    background-color: rgb(252, 25, 25, 0.9);
+    border-radius: 5px;
+    color: rgba(255,255,255,0.8);
+}
+
 .container .content form .button-group {
     display: flex;
     justify-content: space-between;

@@ -1,12 +1,12 @@
-import Comment from "../models/Comment.js";
-import jwt from "jsonwebtoken";
+import Comment from '../models/Comment.js';
+import jwt from 'jsonwebtoken';
 
 import authConfig from '../config/auth.js';
 
 async function comment(req, res) {
     const { user_id } = req.params;
     const { comment } = req.body;
-    const token = req.headers["x-access-token"];
+    const token = req.headers['x-access-token'];
     
     if(comment == null) {
         res.status(400).send({ msg: 'Sintaxe incorreta.' });
